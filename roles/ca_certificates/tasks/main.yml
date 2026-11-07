@@ -1,4 +1,7 @@
 ---
+- name: Validate variables
+  ansible.builtin.include_tasks: validate.yml
+
 - name: Install ca-certificates
   ansible.builtin.apt:
     name: ca-certificates
