@@ -1,0 +1,15 @@
+---
+namespace: puetzp
+name: debian
+version: 1.0.0
+readme: README.md
+authors: []
+description: Personal Ansible collection to configure standard software on Debian servers
+license_file: ../LICENSE
+tags: []
+dependencies: {}
+repository: https://github.com/puetzp/ansible-debian
+documentation: https://github.com/puetzp/ansible-debian
+homepage: https://github.com/puetzp/ansible-debian
+issues: https://github.com/puetzp/ansible-debian/issues
+build_ignore: []
