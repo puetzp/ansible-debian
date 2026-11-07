@@ -39,7 +39,8 @@ Example variables
 # group_vars/all.yml
 
 # Uncomment to use a custom configuration file with specific certificates
-# disabled. The file is loaded from `files` in the playbook directory.
+# disabled. In this example the file is loaded from `files` in the playbook
+# directory.
 #
 # Per default the configuration file from the distribution is used as-is.
 #
