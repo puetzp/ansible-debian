@@ -1,0 +1,25 @@
+---
+- name: Validate variables
+  ansible.builtin.include_tasks: validate.yml
+
+- name: Install ca-certificates
+  ansible.builtin.apt:
+    name: ca-certificates
+    state: present
+    install_recommends: false
+    update_cache: true
+
+- name: Include tasks to configure default certificates
+  ansible.builtin.include_tasks: conf.yml
+  when: ca_certificates_conf is defined
+
+- name: Include tasks to configure custom certificates
+  ansible.builtin.include_tasks: custom.yml
+  when: ca_certificates_custom is defined
+
+- name: Include tasks to configure certificate update hooks
+  ansible.builtin.include_tasks: hooks.yml
+  when: ca_certificates_hooks is defined
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

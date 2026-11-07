@@ -1,0 +1,28 @@
+---
+# Design decision that is validated by this test:
+#
+# Valid custom certificate file names must end in a '.crt' extension.
+# The role adds this extension automatically to keys in the map
+# 'ca_certificates_custom'. The role could be lenient and add the
+# extension only when it is not already present. However this could
+# result in unexpected behaviour, e.g. when a user defines two certificates
+# 'test.crt' and 'test' in the same map. One would eventually overwrite
+# the other and only one file would actually be created.
+# Instead the role rejects mapping keys that already contain the extension.
+- name: Ensure custom certificate files do not end with '.crt' extension
+  ansible.builtin.assert:
+    that: ca_certificates_custom | dict2items | map(attribute='key') | map('splitext') | map('last') | select('equalto', '.crt') | length == 0
+    success_msg: "All mapping keys in 'ca_certificates_custom' are valid file names"
+    fail_msg: "Mapping keys in 'ca_certificates_custom' must not end with '.crt' extension"
+  when: ca_certificates_custom is defined and ca_certificates_custom | length > 0
+
+# Ensure the file names of update hooks contain only valid characters
+# lest they are at risk of being ignored by 'run-parts'.
+- name: Ensure certificate update hook file names contain only valid characters
+  ansible.builtin.assert:
+    that: ca_certificates_hooks | dict2items | map(attribute='key') | select('match', _ca_certificates_hooks_regex) | length == ca_certificates_hooks | length
+    success_msg: "All mapping keys in 'ca_certificates_hooks' are valid file names"
+    fail_msg: "Map keys in 'ca_certificates_hooks' must match '{{ _ca_certificates_hooks_regex }}'"
+  vars:
+    _ca_certificates_hooks_regex: '^[a-zA-Z0-9_-]+$'
+  when: ca_certificates_hooks is defined and ca_certificates_hooks | length > 0
