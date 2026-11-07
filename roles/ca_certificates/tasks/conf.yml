@@ -1,0 +1,10 @@
+---
+- name: Create /etc/ca-certificates.conf
+  ansible.builtin.copy:
+    content: "{{ ca_certificates_conf }}"
+    dest: /etc/ca-certificates.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Run update-ca-certificates

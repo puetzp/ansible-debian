@@ -1,0 +1,42 @@
+---
+- name: Create /usr/local/share/ca-certificates
+  ansible.builtin.file:
+    path: /usr/local/share/ca-certificates
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Define variable
+  ansible.builtin.set_fact:
+    _ca_certificates_custom: {}
+
+- name: Define custom certificate files
+  ansible.builtin.set_fact:
+    _ca_certificates_custom: "{{ _ca_certificates_custom | combine({ '/usr/local/share/ca-certificates/' ~ item.key ~ '.crt': item.value }) }}"
+  loop: "{{ ca_certificates_custom | dict2items }}"
+
+- name: Find existing custom certificate files
+  ansible.builtin.find:
+    paths: /usr/local/share/ca-certificates
+  register: _ca_certificates_existing_files
+
+- name: Remove unwanted custom certificate files
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  when: item.path not in _ca_certificates_custom
+  loop: "{{ _ca_certificates_existing_files.files }}"
+  notify:
+    - Run update-ca-certificates
+  
+- name: Create custom certificate files
+  ansible.builtin.copy:
+    content: "{{ item.value }}"
+    dest: "{{ item.key }}"
+    owner: root
+    group: root
+    mode: '0644'
+  loop: "{{ _ca_certificates_custom | dict2items }}"
+  notify:
+    - Run update-ca-certificates

@@ -1,0 +1,38 @@
+---
+- name: Create /etc/ca-certificates/update.d
+  ansible.builtin.file:
+    path: /etc/ca-certificates/update.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Define variable
+  ansible.builtin.set_fact:
+    _ca_certificates_hooks: {}
+
+- name: Define certificate update hooks
+  ansible.builtin.set_fact:
+    _ca_certificates_hooks: "{{ _ca_certificates_hooks | combine({ '/etc/ca-certificates/update.d/' ~ item.key: item.value }) }}"
+  loop: "{{ ca_certificates_hooks | dict2items }}"
+
+- name: Find existing certificate update hooks
+  ansible.builtin.find:
+    paths: /etc/ca-certificates/update.d
+  register: _ca_certificates_existing_hooks
+
+- name: Remove unwanted certificate update hooks
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  when: item.path not in _ca_certificates_hooks
+  loop: "{{ _ca_certificates_existing_hooks.files }}"
+  
+- name: Create certificate update hooks
+  ansible.builtin.copy:
+    content: "{{ item.value }}"
+    dest: "{{ item.key }}"
+    owner: root
+    group: root
+    mode: '0755'
+  loop: "{{ _ca_certificates_hooks | dict2items }}"
