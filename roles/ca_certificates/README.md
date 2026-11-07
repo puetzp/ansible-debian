@@ -40,6 +40,9 @@ Example variables
 
 # Uncomment to use a custom configuration file with specific certificates
 # disabled. The file is loaded from `files` in the playbook directory.
+#
+# Per default the configuration file from the distribution is used as-is.
+#
 # ca_certificates_conf: "{{ lookup('file', 'etc/ca-certificates.conf', rstrip = false) }}"
 
 # Define custom certificates. The `.crt` extension is added automatically.
@@ -57,13 +60,17 @@ ca_certificates_custom:
     TFrGh/d/2zMx3YvNF7q8Kmyw75i++DUCMQC7JBMVDVm9uK3YfKskfQ5aAcc0X/25
     ZaG3dUDcIoBC/MOxTEhoFCo6xvaykPVOPE4=
     -----END CERTIFICATE-----
+
+# Or use an empty map to remove all custom certificates.
+#
+# ca_certificates_custom: {}
 ```
 
 ```yml
 # host_vars/ntp.internal.yml
 
 # Use a hook script to restart chrony when the set of trusted CA
-# certificates changes.
+# certificates changes, i.e. after `update-ca-certificates` ran.
 ca_certificates_hooks:
   restart-chrony: |
     #!/bin/sh
