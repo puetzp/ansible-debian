@@ -21,7 +21,7 @@ Role Variables
 | --- | --- | --- |
 | `reprepro_basedir` | String | The base directory where `reprepro` expects its configuration by default and where the signing script is created (defaul: `/etc/reprepro`). |
 | `reprepro_outdir` | String | The directory where `reprepro` creates repositories (default: `/srv/reprepro`). |
-| `reprepro_user` | String. The user account that executes `reprepro` commands and is able to access the private OpenPGP keyring via `systemd-creds` (default: `reprepro`). |
+| `reprepro_user` | String | The user account that executes `reprepro` commands and is able to access the private OpenPGP keyring via `systemd-creds` (default: `reprepro`). |
 | `reprepro_gpg_passphrase` | String | The passphrase to create and access the private OpenPGP keyring. This is also used to create a credential via `systemd-creds`, so the user is able to execute `reprepro` commands (such as `reprepro update <codename>`) automatically without human intervention. |
 | `reprepro_options` | String | If present, the contents of this variable are copied to `{{ reprepro_basedir }}/conf/options`. |
 | `reprepro_distributions` | String | If present, the contents of this variable are copied to `{{ reprepro_basedir }}/conf/distributions`. |
