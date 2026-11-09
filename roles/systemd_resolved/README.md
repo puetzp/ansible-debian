@@ -11,7 +11,9 @@ None
 Role Variables
 --------------
 
-- `systemd_resolved`: String. If present, the contents of this variable are copied to the configuration file at `/etc/systemd/resolved.conf`. If absent, the current file is not modified.
+| Name | Type | Description |
+| --- | --- | --- |
+| `systemd_resolved` | String | If present, the contents of this variable are copied to the configuration file at `/etc/systemd/resolved.conf`. If absent, the current file is not modified. |
 
 Dependencies
 ------------
@@ -25,7 +27,7 @@ Example Playbook
 - hosts: servers
   gather_facts: false
   roles:
-    - ansible.debian.systemd_resolved
+    - puetzp.debian.systemd_resolved
 ```
 
 Example variables

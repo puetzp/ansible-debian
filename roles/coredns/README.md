@@ -11,11 +11,13 @@ None
 Role Variables
 --------------
 
-- `coredns_version`: String. The version of coredns that is to be downloaded from GitHub, e.g. `1.14.2` (without the leading "v"!). The role downloads the archive `coredns_{{ coredns_version }}_linux_amd64.tgz`.
-- `coredns_checksum`: String. The checksum of the archive that is downloaded from GitHub, e.g. `sha256:2f08896df9d28ea0cd2294037e6d66e82f996b504e4901b791be8a3ae042029b`.
-- `coredns_corefile`: String. If present, the contents of this variable are copied to `/etc/coredns/Corefile`. If absent, the current file is not modified.
-- `coredns_defaults`: String. If present, the contents of this variable are copied to `/etc/default/coredns`. If absent, the role creates a commented example file that does not change the defaults.
-- `coredns_systemd_override`: String. If present, the contents of this variable are copied to `/etc/systemd/system/coredns.service.d/override.conf` to override or add settings to the systemd service unit running `coredns`. If absent, the service unit is left unmodified.
+| Name | Type | Description |
+| --- | --- | --- |
+| `coredns_version` | String | The version of coredns that is to be downloaded from GitHub, e.g. `1.14.2` (without the leading "v"!). The role downloads the archive `coredns_{{ coredns_version }}_linux_amd64.tgz`. |
+| `coredns_checksum` | String | The checksum of the archive that is downloaded from GitHub, e.g. `sha256:2f08896df9d28ea0cd2294037e6d66e82f996b504e4901b791be8a3ae042029b`. |
+| `coredns_corefile` | String | If present, the contents of this variable are copied to `/etc/coredns/Corefile`. If absent, the current file is not modified. |
+| `coredns_defaults` | String | If present, the contents of this variable are copied to `/etc/default/coredns`. If absent, the role creates a commented example file that does not change the defaults. |
+| `coredns_systemd_override` | String | If present, the contents of this variable are copied to `/etc/systemd/system/coredns.service.d/override.conf` to override or add settings to the systemd service unit running `coredns`. If absent, the service unit is left unmodified. |
 
 Dependencies
 ------------
@@ -29,7 +31,7 @@ Example Playbook
 - hosts: servers
   gather_facts: false
   roles:
-    - ansible.debian.coredns
+    - puetzp.debian.coredns
 ```
 
 Example variables

@@ -11,11 +11,13 @@ None
 Role Variables
 --------------
 
-- `ifupdown2_config`: String. If present, the contents of this variable are copied to `/etc/network/ifupdown2/ifupdown2.conf`. If absent, the current file is not modified.
-- `ifupdown2_addons`: String. If present, the contents of this variable are copied to `/etc/network/ifupdown2/addons.conf`. If absent, the current file is not modified.
-- `ifupdown2_defaults`: String. If present, the contents of this variable are copied to `/etc/default/networking`. If absent, the current file is not modified.
-- `ifupdown2_interfaces`: Mapping. If present, each key in this mapping is used as a file name to create a file in `/etc/network/interfaces.d` while the value is used as file content. Unknown files are removed from the directory. If absent, the directory is not modified.
-- `ifupdown2_systemd_override`: String. If present, the contents of this variable are copied to `/etc/systemd/system/networking.service.d/override.conf` to override or add settings to the systemd service unit `networking`. If absent, the current file is not modified.
+| Name | Type | Description |
+| --- | --- | --- |
+| `ifupdown2_config` | String | If present, the contents of this variable are copied to `/etc/network/ifupdown2/ifupdown2.conf`. If absent, the current file is not modified. |
+| `ifupdown2_addons` | String | If present, the contents of this variable are copied to `/etc/network/ifupdown2/addons.conf`. If absent, the current file is not modified. |
+| `ifupdown2_defaults` | String | If present, the contents of this variable are copied to `/etc/default/networking`. If absent, the current file is not modified. |
+| `ifupdown2_interfaces` | Mapping | If present, each key in this mapping is used as a file name to create a file in `/etc/network/interfaces.d` while the value is used as file content. Unknown files are removed from the directory. If absent, the directory is not modified. |
+| `ifupdown2_systemd_override` | String | If present, the contents of this variable are copied to `/etc/systemd/system/networking.service.d/override.conf` to override or add settings to the systemd service unit `networking`. If absent, the current file is not modified. |
 
 
 Dependencies
@@ -30,7 +32,7 @@ Example Playbook
 - hosts: servers
   gather_facts: false
   roles:
-    - ansible.debian.ifupdown2
+    - puetzp.debian.ifupdown2
 ```
 
 Example variables

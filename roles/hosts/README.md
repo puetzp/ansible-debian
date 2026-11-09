@@ -11,7 +11,9 @@ None
 Role Variables
 --------------
 
-- `hosts`: String. If present, the contents of this variable are copied to `/etc/hosts`. If absent, the current file is not modified.
+| Name | Type | Description |
+| --- | --- | --- |
+| `hosts` | String | If present, the contents of this variable are copied to `/etc/hosts`. If absent, the current file is not modified. |
 
 Dependencies
 ------------
@@ -25,7 +27,7 @@ Example Playbook
 - hosts: servers
   gather_facts: false
   roles:
-    - ansible.debian.hosts
+    - puetzp.debian.hosts
 ```
 
 Example variables

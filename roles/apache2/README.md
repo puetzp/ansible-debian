@@ -15,16 +15,18 @@ None
 Role Variables
 --------------
 
-- `apache2_conf`: String. If present, the contents of this variable are copied to `/etc/apache2/apache2.conf`. If absent, the current file is not modified.
-- `apache2_ports`: String. If present, the contents of this variable are copied to `/etc/apache2/ports.conf`. If absent, the current file is not modified.
-- `apache2_envvars`: String. If present, the contents of this variable are copied to `/etc/apache2/envvars`. If absent, the current file is not modified.
-- `apache2_conf_available`: Mapping. If present, each key in this mapping is used as a file name to create a file in `/etc/apache2/conf-available` while the value is used as file content. Existing files are left unmodified. If absent, the directory is not modified.
-- `apache2_conf_enabled`: List. If present, every item from this list is used to create a symlink in `/etc/apache2/conf-enabled` pointing to the corresponding file in `/etc/apache2/conf-available`. Unknown symlinks and files are removed from the directory. If absent, the directory is not modified.
-- `apache2_mods_available`: Mapping. If present, each key in this mapping is used as a file name to create a file in `/etc/apache2/mods-available` while the value is used as file content. Existing files are left unmodified. If absent, the directory is not modified.
-- `apache2_mods_enabled`: List. If present, every item from this list is used to create a symlink in `/etc/apache2/mods-enabled` pointing the corresponding file in `/etc/apache2/mods-available`. Unknown symlinks and files are removed from the directory. If absent, the directory is not modified.
-- `apache2_sites_available`: Mapping. If present, each key in this mapping is used as a file name to create a file in `/etc/apache2/sites-available` while the value is used as file content. Existing files are left unmodified. If absent, the directory is not modified.
-- `apache2_sites_enabled`: List. If present, every item from this list is used to create a symlink in `/etc/apache2/sites-enabled` pointing the corresponding file in `/etc/apache2/sites-available`. Unknown symlinks and files are removed from the directory. If absent, the directory is not modified.
-- `apache2_systemd_override`: String. If present, the contents of this variable are copied to `/etc/systemd/system/apache2.service.d/override.conf` to override or add settings to the systemd service unit running `apache2`. If absent, the current file is not modified.
+| Name | Type | Description |
+| --- | --- | --- |
+| `apache2_conf` | String | If present, the contents of this variable are copied to `/etc/apache2/apache2.conf`. If absent, the current file is not modified. |
+| `apache2_ports` | String | If present, the contents of this variable are copied to `/etc/apache2/ports.conf`. If absent, the current file is not modified. |
+| `apache2_envvars` | String | If present, the contents of this variable are copied to `/etc/apache2/envvars`. If absent, the current file is not modified. |
+| `apache2_conf_available` | Mapping | If present, each key in this mapping is used as a file name to create a file in `/etc/apache2/conf-available` while the value is used as file content. Existing files are left unmodified. If absent, the directory is not modified. |
+| `apache2_conf_enabled` | List | If present, every item from this list is used to create a symlink in `/etc/apache2/conf-enabled` pointing to the corresponding file in `/etc/apache2/conf-available`. Unknown symlinks and files are removed from the directory. If absent, the directory is not modified. |
+| `apache2_mods_available` | Mapping | If present, each key in this mapping is used as a file name to create a file in `/etc/apache2/mods-available` while the value is used as file content. Existing files are left unmodified. If absent, the directory is not modified. |
+| `apache2_mods_enabled` | List | If present, every item from this list is used to create a symlink in `/etc/apache2/mods-enabled` pointing the corresponding file in `/etc/apache2/mods-available`. Unknown symlinks and files are removed from the directory. If absent, the directory is not modified. |
+| `apache2_sites_available` | Mapping | If present, each key in this mapping is used as a file name to create a file in `/etc/apache2/sites-available` while the value is used as file content. Existing files are left unmodified. If absent, the directory is not modified. |
+| `apache2_sites_enabled` | List | If present, every item from this list is used to create a symlink in `/etc/apache2/sites-enabled` pointing the corresponding file in `/etc/apache2/sites-available`. Unknown symlinks and files are removed from the directory. If absent, the directory is not modified. |
+| `apache2_systemd_override` | String | If present, the contents of this variable are copied to `/etc/systemd/system/apache2.service.d/override.conf` to override or add settings to the systemd service unit running `apache2`. If absent, the current file is not modified. |
 
 Dependencies
 ------------
@@ -46,7 +48,7 @@ Example Playbook
         group: root
         mode: '0755'
   roles:
-    - ansible.debian.apache2
+    - puetzp.debian.apache2
 ```
 
 Example variables

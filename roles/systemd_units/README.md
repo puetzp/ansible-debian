@@ -13,9 +13,9 @@ Role Variables
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `systemd_mounts` | Mapping | If present, each key in the mapping is used to create a file in `/etc/systemd/system`. The `.mount` filename extension is added automatically. Inside the mapping the value of the key `content` determines the file content. Beyond that the mapping can contain any parameters from [`ansible.builtin.systemd_service`](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/systemd_service_module.html) which are passed on to the task managing the unit.
-| `systemd_services` | Mapping | If present, each key in the mapping is used to create a file in `/etc/systemd/system`. The `.service` filename extension is added automatically. Inside the mapping the value of the key `content` determines the file content. Beyond that the mapping can contain any parameters from [`ansible.builtin.systemd_service`](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/systemd_service_module.html) which are passed on to the task managing the unit.
-| `systemd_timers` | Mapping | If present, each key in the mapping is used to create a file in `/etc/systemd/system`. The `.timer` filename extension is added automatically. Inside the mapping the value of the key `content` determines the file content. Beyond that the mapping can contain any parameters from [`ansible.builtin.systemd_service`](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/systemd_service_module.html) which are passed on to the task managing the unit.
+| `systemd_mounts` | Mapping | If present, each key in the mapping is used to create a file in `/etc/systemd/system`. The `.mount` filename extension is added automatically. Inside the mapping the value of the key `content` determines the file content. Beyond that the mapping can contain any parameters from [`ansible.builtin.systemd_service`](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/systemd_service_module.html) which are passed on to the task managing the unit. |
+| `systemd_services` | Mapping | If present, each key in the mapping is used to create a file in `/etc/systemd/system`. The `.service` filename extension is added automatically. Inside the mapping the value of the key `content` determines the file content. Beyond that the mapping can contain any parameters from [`ansible.builtin.systemd_service`](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/systemd_service_module.html) which are passed on to the task managing the unit. |
+| `systemd_timers` | Mapping | If present, each key in the mapping is used to create a file in `/etc/systemd/system`. The `.timer` filename extension is added automatically. Inside the mapping the value of the key `content` determines the file content. Beyond that the mapping can contain any parameters from [`ansible.builtin.systemd_service`](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/systemd_service_module.html) which are passed on to the task managing the unit. |
 
 Dependencies
 ------------
@@ -29,7 +29,7 @@ Example Playbook
 - hosts: all
   gather_facts: false
   roles:
-    - ansible.debian.systemd_units
+    - puetzp.debian.systemd_units
 ```
 
 Example variables

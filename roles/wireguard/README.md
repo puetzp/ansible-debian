@@ -13,9 +13,11 @@ None
 Role Variables
 --------------
 
-- `wireguard_wg0_conf_path`: String. This variable tells the role where to put the interface configuration file (see [defaults](defaults/main.yml)).
-- `wireguard_wg0_conf`: String. If present, the contents of this variable are copied to the path specified by `wireguard_wg0_conf_path`. If absent, the current file is not modified.
-- `wireguard_systemd_override`: String. If present, the contents of this variable are copied to `/etc/systemd/system/wg-quick@wg0.service.d/override.conf` to override or add settings to the systemd service unit that manages the interface `wg0`. If absent, the service unit is left unmodified.
+| Name | Type | Description |
+| --- | --- | --- |
+| `wireguard_wg0_conf_path` | String | This variable tells the role where to put the interface configuration file (see [defaults](defaults/main.yml)). |
+| `wireguard_wg0_conf` | String | If present, the contents of this variable are copied to the path specified by `wireguard_wg0_conf_path`. If absent, the current file is not modified. |
+| `wireguard_systemd_override` | String | If present, the contents of this variable are copied to `/etc/systemd/system/wg-quick@wg0.service.d/override.conf` to override or add settings to the systemd service unit that manages the interface `wg0`. If absent, the service unit is left unmodified. |
 
 Dependencies
 ------------
@@ -29,7 +31,7 @@ Example Playbook
 - hosts: servers
   gather_facts: false
   roles:
-    - ansible.debian.wireguard
+    - puetzp.debian.wireguard
 ```
 
 Example variables

@@ -11,7 +11,9 @@ None
 Role Variables
 --------------
 
-- `ssh_known_hosts`: String. The contents of this variable are copied to the configuration file at `${HOME}/.ssh/known_hosts2`.
+| Name | Type | Description |
+| --- | --- | --- |
+| `ssh_known_hosts` | String | The contents of this variable are copied to the configuration file at `${HOME}/.ssh/known_hosts2`. |
 
 Dependencies
 ------------
@@ -26,7 +28,7 @@ It is important that the playbook gather facts. Otherwise the role will not be a
 ```yml
 - hosts: localhost 
   roles:
-    - ansible.debian.ssh
+    - puetzp.debian.ssh
 ```
 
 The following example assumes that the role is used in conjunction with the [`hcloud_vm`](../hcloud_vm) role which caches SSH host keys in a child directory of the directory where the playbook is located.

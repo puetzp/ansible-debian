@@ -11,7 +11,9 @@ None
 Role Variables
 --------------
 
-- `sysctl_d`: Mapping. If present, each key in this mapping is used as a file name to create a file in `/etc/sysctl.d` while the value is used as file content. Note that keys in this mapping should end with `.conf`, otherwise they are ignored by `systemd-sysctl`. Unknown files in this directory are removed, as is the obsolete default file `/etc/sysctl.conf`. If absent, files in the directory are not modified.
+| Name | Type | Description |
+| --- | --- | --- |
+| `sysctl_d` | Mapping | If present, each key in this mapping is used as a file name to create a file in `/etc/sysctl.d` while the value is used as file content. Note that keys in this mapping should end with `.conf`, otherwise they are ignored by `systemd-sysctl`. Unknown files in this directory are removed, as is the obsolete default file `/etc/sysctl.conf`. If absent, files in the directory are not modified. |
 
 Dependencies
 ------------
@@ -25,7 +27,7 @@ Example Playbook
 - hosts: servers
   gather_facts: false
   roles:
-    - ansible.debian.sysctl
+    - puetzp.debian.sysctl
 ```
 
 Example variables

@@ -90,7 +90,7 @@ Use the following example playbook to install the VMs:
 - hosts: hcloud
   gather_facts: false
   roles:
-    - role: ansible.debian.hcloud_vm
+    - role: puetzp.debian.hcloud_vm
 ```
 
 ```sh

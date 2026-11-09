@@ -11,9 +11,11 @@ Requirements
 Role Variables
 --------------
 
-- `lvm_pvs`: List. If present, configures each device as a physical volume.
-- `lvm_vgs`: List. If present, creates volume groups using specific physical volumes.
-- `lvm_lvs`: List. If present, creates logical volumes in a specific volume group and creates a filesystem in the new logical volume.
+| Name | Type | Description |
+| --- | --- | --- |
+| `lvm_pvs` | List | If present, configures each device as a physical volume. |
+| `lvm_vgs` | List | If present, creates volume groups using specific physical volumes. |
+| `lvm_lvs` | List | If present, creates logical volumes in a specific volume group and creates a filesystem in the new logical volume. |
 
 Dependencies
 ------------
@@ -27,7 +29,7 @@ Example Playbook
 - hosts: all
   gather_facts: false
   roles:
-    - ansible.debian.lvm
+    - puetzp.debian.lvm
 ```
 
 Example variables

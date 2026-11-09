@@ -11,8 +11,10 @@ None
 Role Variables
 --------------
 
-- `prometheus_node_exporter_defaults`: String. If present, the contents of this variable are copied to `/etc/default/prometheus-node-exporter`. If absent, the current file is not modified.
-- `prometheus_node_exporter_systemd_override`: String. If present, the contents of this variable are copied to `/etc/systemd/system/prometheus-node-exporter.service.d/override.conf` to override or add settings to the systemd service unit running `prometheus-node-exporter`. If absent, the current file is not modified.
+| Name | Type | Description |
+| --- | --- | --- |
+| `prometheus_node_exporter_defaults` | String | If present, the contents of this variable are copied to `/etc/default/prometheus-node-exporter`. If absent, the current file is not modified. |
+| `prometheus_node_exporter_systemd_override` | String | If present, the contents of this variable are copied to `/etc/systemd/system/prometheus-node-exporter.service.d/override.conf` to override or add settings to the systemd service unit running `prometheus-node-exporter`. If absent, the current file is not modified. |
 
 Dependencies
 ------------
@@ -26,7 +28,7 @@ Example Playbook
 - hosts: servers
   gather_facts: false
   roles:
-    - ansible.debian.prometheus_node_exporter
+    - puetzp.debian.prometheus_node_exporter
 ```
 
 Example variables

@@ -17,14 +17,16 @@ None
 Role Variables
 --------------
 
-- `reprepro_basedir`: String. The base directory where `reprepro` expects its configuration by default and where the signing script is created (defaul: `/etc/reprepro`).
-- `reprepro_outdir`: String. The directory where `reprepro` creates repositories (default: `/srv/reprepro`).
-- `reprepro_user`: String. The user account that executes `reprepro` commands and is able to access the private OpenPGP keyring via `systemd-creds` (default: `reprepro`).
-- `reprepro_gpg_passphrase`: String. The passphrase to create and access the private OpenPGP keyring. This is also used to create a credential via `systemd-creds`, so the user is able to execute `reprepro` commands (such as `reprepro update <codename>`) automatically without human intervention.
-- `reprepro_options`: String. If present, the contents of this variable are copied to `{{ reprepro_basedir }}/conf/options`.
-- `reprepro_distributions`: String. If present, the contents of this variable are copied to `{{ reprepro_basedir }}/conf/distributions`.
-- `reprepro_updates`: String. If present, the contents of this variable are copied to `{{ reprepro_basedir }}/conf/updates`.
-- `reprepro_gpg_keyrings`: List. If present, imports all keys from local keyrings to the remote user's keyring. This way `reprepro` is able to validate upstream release files when refering to a key via the `VerifyRelease` directive in a `conf/updates` file.
+| Name | Type | Description |
+| --- | --- | --- |
+| `reprepro_basedir` | String | The base directory where `reprepro` expects its configuration by default and where the signing script is created (defaul: `/etc/reprepro`). |
+| `reprepro_outdir` | String | The directory where `reprepro` creates repositories (default: `/srv/reprepro`). |
+| `reprepro_user` | String. The user account that executes `reprepro` commands and is able to access the private OpenPGP keyring via `systemd-creds` (default: `reprepro`). |
+| `reprepro_gpg_passphrase` | String | The passphrase to create and access the private OpenPGP keyring. This is also used to create a credential via `systemd-creds`, so the user is able to execute `reprepro` commands (such as `reprepro update <codename>`) automatically without human intervention. |
+| `reprepro_options` | String | If present, the contents of this variable are copied to `{{ reprepro_basedir }}/conf/options`. |
+| `reprepro_distributions` | String | If present, the contents of this variable are copied to `{{ reprepro_basedir }}/conf/distributions`. |
+| `reprepro_updates` | String | If present, the contents of this variable are copied to `{{ reprepro_basedir }}/conf/updates`. |
+| `reprepro_gpg_keyrings` | List | If present, imports all keys from local keyrings to the remote user's keyring. This way `reprepro` is able to validate upstream release files when refering to a key via the `VerifyRelease` directive in a `conf/updates` file. |
 
 Dependencies
 ------------
@@ -38,8 +40,8 @@ Example Playbook
 - hosts: mirror
   gather_facts: false
   roles:
-    - ansible.debian.nginx
-    - ansible.debian.reprepro
+    - puetzp.debian.nginx
+    - puetzp.debian.reprepro
 ```
 
 Example variables

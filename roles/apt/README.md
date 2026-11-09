@@ -11,9 +11,11 @@ None
 Role Variables
 --------------
 
-- `apt_sources`: Mapping. If present, each key in this mapping is used as a file name to create a file in `/etc/apt/sources.list.d` while the value is used as file content. Note that keys in this mapping should end with `.list` or `.sources`. Unknown files in this directory are removed, as is the default file `/etc/apt/sources.list`. If absent, the directory is not modified.
-- `apt_keyrings`: Mapping. If present, each key in this mapping is used as a file name to create a file in `/etc/apt/keyrings`. The value is a source path from where the keyring should be copied to the remote host. Unknown files are removed from the target directory. If absent, the directory is not modified.
-- `apt_upgrade`: Boolean. When `true`, enables a systemd service unit that upgrades the system after boot as soon as the network is available. Defaults to `false`.
+| Name | Type | Description |
+| --- | --- | --- |
+| `apt_sources` | Mapping | If present, each key in this mapping is used as a file name to create a file in `/etc/apt/sources.list.d` while the value is used as file content. Note that keys in this mapping should end with `.list` or `.sources`. Unknown files in this directory are removed, as is the default file `/etc/apt/sources.list`. If absent, the directory is not modified. |
+| `apt_keyrings` | Mapping | If present, each key in this mapping is used as a file name to create a file in `/etc/apt/keyrings`. The value is a source path from where the keyring should be copied to the remote host. Unknown files are removed from the target directory. If absent, the directory is not modified. |
+| `apt_upgrade` | Boolean | When `true`, enables a systemd service unit that upgrades the system after boot as soon as the network is available. Defaults to `false`. |
 
 Dependencies
 ------------
@@ -27,7 +29,7 @@ Example Playbook
 - hosts: servers
   gather_facts: false
   roles:
-    - ansible.debian.apt
+    - puetzp.debian.apt
 ```
 
 Example variables

@@ -11,7 +11,9 @@ None
 Role Variables
 --------------
 
-- `systemd_journald`: String. If present, the contents of this variable are copied to the configuration file at `/etc/systemd/journald.conf`. If absent, the current file is not modified.
+| Name | Type | Description |
+| --- | --- | --- |
+| `systemd_journald` | String | If present, the contents of this variable are copied to the configuration file at `/etc/systemd/journald.conf`. If absent, the current file is not modified. |
 
 Dependencies
 ------------
@@ -25,7 +27,7 @@ Example Playbook
 - hosts: servers
   gather_facts: false
   roles:
-    - ansible.debian.systemd_journald
+    - puetzp.debian.systemd_journald
 ```
 
 Example variables

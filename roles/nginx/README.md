@@ -15,11 +15,13 @@ None
 Role Variables
 --------------
 
-- `nginx_conf`: String. If present, the contents of this variable are copied to `/etc/nginx/nginx.conf`. If absent, the current file is not modified.
-- `nginx_conf_d`: Mapping. If present, each key in this mapping is used as a file name to create a file in `/etc/nginx/conf.d` while the value is used as file content. Unknown files are removed from the directory. If absent, the directory is not modified.
-- `nginx_sites_available`: Mapping. If present, each key in this mapping is used as a file name to create a file in `/etc/nginx/sites-available` while the value is used as file content. Existing files are left unmodified. If absent, the directory is not modified.
-- `nginx_sites_enabled`: List. If present, every item from this list is used to create a symlink in `/etc/nginx/sites-enabled` pointing the corresponding file in `/etc/nginx/sites-available`. Unknown symlinks and files are removed from the directory. If absent, the directory is not modified.
-- `nginx_systemd_override`: String. If present, the contents of this variable are copied to `/etc/systemd/system/nginx.service.d/override.conf` to override or add settings to the systemd service unit running `nginx`. If absent, the current file is not modified.
+| Name | Type | Description |
+| --- | --- | --- |
+| `nginx_conf` | String | If present, the contents of this variable are copied to `/etc/nginx/nginx.conf`. If absent, the current file is not modified. |
+| `nginx_conf_d` | Mapping | If present, each key in this mapping is used as a file name to create a file in `/etc/nginx/conf.d` while the value is used as file content. Unknown files are removed from the directory. If absent, the directory is not modified. |
+| `nginx_sites_available` | Mapping | If present, each key in this mapping is used as a file name to create a file in `/etc/nginx/sites-available` while the value is used as file content. Existing files are left unmodified. If absent, the directory is not modified. |
+| `nginx_sites_enabled` | List | If present, every item from this list is used to create a symlink in `/etc/nginx/sites-enabled` pointing the corresponding file in `/etc/nginx/sites-available`. Unknown symlinks and files are removed from the directory. If absent, the directory is not modified. |
+| `nginx_systemd_override` | String | If present, the contents of this variable are copied to `/etc/systemd/system/nginx.service.d/override.conf` to override or add settings to the systemd service unit running `nginx`. If absent, the current file is not modified. |
 
 Dependencies
 ------------
@@ -41,7 +43,7 @@ Example Playbook
         group: root
         mode: '0755'
   roles:
-    - ansible.debian.nginx
+    - puetzp.debian.nginx
 ```
 
 Example variables

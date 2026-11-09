@@ -11,8 +11,10 @@ None
 Role Variables
 --------------
 
-- `nftables_conf`: String. If present, the contents of this variable are copied to `/etc/nftables.conf`. If absent, the current file is not modified.
-- `nftables_conf_d`: Mapping. If present, each key in this mapping is used as a file name to create a file in `/etc/nftables.d` while the value is used as file content. This is useful to split up input, output and forward chains and keep a reasonable default in the main configuration file. Unknown files are removed from this directory. If absent, the directory is not modified.
+| Name | Type | Description |
+| --- | --- | --- |
+| `nftables_conf` | String | If present, the contents of this variable are copied to `/etc/nftables.conf`. If absent, the current file is not modified. |
+| `nftables_conf_d` | Mapping | If present, each key in this mapping is used as a file name to create a file in `/etc/nftables.d` while the value is used as file content. This is useful to split up input, output and forward chains and keep a reasonable default in the main configuration file. Unknown files are removed from this directory. If absent, the directory is not modified. |
 
 
 Dependencies
@@ -27,7 +29,7 @@ Example Playbook
 - hosts: servers
   gather_facts: false
   roles:
-    - ansible.debian.nftables
+    - puetzp.debian.nftables
 ```
 
 Example variables
