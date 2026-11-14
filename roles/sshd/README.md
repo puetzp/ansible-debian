@@ -3,7 +3,7 @@ sshd
 
 This role configures `sshd` on Debian servers. The package `openssh-server` is installed if it does not exist yet.
 
-The role also features a rollback mechanism that works as follows:
+The role also features a rollback mechanism to prevent users from locking themselves out from a host after changing the SSH configuration. This mechanism works as follows:
 
 - backup `/etc/ssh/sshd_config` and `/etc/ssh/sshd_config.d`
 - check if `sshd` is restarted due to config changes
