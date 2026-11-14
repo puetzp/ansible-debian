@@ -1,0 +1,10 @@
+---
+- name: Create /etc/default/ssh
+  ansible.builtin.copy:
+    content: "{{ sshd_defaults }}"
+    dest: /etc/default/ssh
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Restart sshd
