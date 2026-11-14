@@ -2,6 +2,7 @@
 - name: Validate sshd config
   ansible.builtin.command:
     cmd: sshd -t
+  changed_when: false
 
 - name: Restart sshd
   ansible.builtin.systemd_service:
@@ -9,4 +10,4 @@
     enabled: true
     state: restarted
     daemon_reload: true
-
+  register: _sshd_restart

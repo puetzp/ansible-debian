@@ -1,4 +1,37 @@
 ---
+- name: Install openssh-server
+  ansible.builtin.apt:
+    name: openssh-server
+    state: present
+    install_recommends: false
+    update_cache: true
+
+- name: Create backup of /etc/ssh/sshd_config
+  ansible.builtin.copy:
+    remote_src: true
+    src: /etc/ssh/sshd_config
+    dest: /etc/ssh/sshd_config~
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Create /etc/ssh/sshd_config.d
+  ansible.builtin.file:
+    path: /etc/ssh/sshd_config.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Create backup of /etc/ssh/sshd_config.d
+  ansible.builtin.copy:
+    remote_src: true
+    src: /etc/ssh/sshd_config.d/
+    dest: /etc/ssh/sshd_config.d~
+    owner: root
+    group: root
+    mode: '0755'
+
 - name: Include tasks to configure sshd
   ansible.builtin.include_tasks: sshd_config.yml
   when: sshd_config is defined
@@ -11,6 +44,128 @@
   ansible.builtin.include_tasks: systemd_override.yml
   when: sshd_systemd_override is defined
 
+- name: Include tasks to configure sshd defaults
+  ansible.builtin.include_tasks: defaults.yml
+  when: sshd_defaults is defined
+
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers
 
+- name: Create systemd timer unit for rollback mechanism
+  ansible.builtin.copy:
+    content: |
+      [Unit]
+      Description=Restore previous sshd configuration
+
+      [Timer]
+      OnActiveSec=5
+    dest: /etc/systemd/system/restore-sshd-configuration.timer
+    owner: root
+    group: root
+    mode: '0644'
+  when:
+    - _sshd_restart is defined
+    - _sshd_restart.changed
+
+- name: Create systemd service unit for rollback mechanism
+  ansible.builtin.copy:
+    content: |
+      [Unit]
+      Description=Restore previous sshd configuration
+
+      [Service]
+      Type=oneshot
+      ExecStart=/usr/bin/cp /etc/ssh/sshd_config~ /etc/ssh/sshd_config
+      ExecStart=/usr/bin/rm -r /etc/ssh/sshd_config.d
+      ExecStart=/usr/bin/cp -r /etc/ssh/sshd_config.d~ /etc/ssh/sshd_config.d
+      ExecStart=/usr/bin/systemctl restart sshd
+      ExecStart=false
+    dest: /etc/systemd/system/restore-sshd-configuration.service
+    owner: root
+    group: root
+    mode: '0644'
+  when:
+    - _sshd_restart is defined
+    - _sshd_restart.changed
+
+- name: Enable and start systemd timer unit for rollback mechanism
+  ansible.builtin.systemd_service:
+    name: restore-sshd-configuration.timer
+    daemon_reload: true
+    state: started
+    enabled: true
+  when:
+    - _sshd_restart is defined
+    - _sshd_restart.changed
+
+- name: Reset connection
+  ansible.builtin.meta: reset_connection
+
+- name: Wait for connection
+  ansible.builtin.wait_for_connection:
+    connect_timeout: 1
+    sleep: 10
+    timeout: 60
+  when:
+    - _sshd_restart is defined
+    - _sshd_restart.changed
+
+- name: Stop and disable systemd timer unit for rollback mechanism
+  ansible.builtin.systemd_service:
+    name: restore-sshd-configuration.timer
+    daemon_reload: true
+    state: stopped
+    enabled: false
+  when:
+    - _sshd_restart is defined
+    - _sshd_restart.changed
+
+- name: Retain status of rollback mechanism
+  ansible.builtin.command:
+    cmd: /usr/bin/systemctl is-failed restore-sshd-configuration.service
+  ignore_errors: true
+  changed_when: false
+  register: _sshd_rollback_status
+  when:
+    - _sshd_restart is defined
+    - _sshd_restart.changed
+
+- name: Reset status of rollback mechanism
+  ansible.builtin.command:
+    cmd: /usr/bin/systemctl reset-failed restore-sshd-configuration.service
+  changed_when: true
+  when:
+    - _sshd_restart is defined
+    - _sshd_restart.changed
+    - _sshd_rollback_status.rc == 0
+
+- name: Remove systemd units for rollback mechanism
+  ansible.builtin.file:
+    path: "/etc/systemd/system/{{ item }}"
+    state: absent
+  loop:
+    - restore-sshd-configuration.timer
+    - restore-sshd-configuration.service
+  when:
+    - _sshd_restart is defined
+    - _sshd_restart.changed
+
+- name: Remove backups
+  ansible.builtin.file:
+    path: "/etc/ssh/{{ item }}"
+    state: absent
+  loop:
+    - sshd_config~
+    - sshd_config.d~
+
+- name: Assert status of rollback mechanism
+  ansible.builtin.assert:
+    that: _sshd_rollback_status.rc != 0
+    success_msg: "The new OpenSSH server configuration is valid and does not need to be rolled back"
+    fail_msg: >
+      The new OpenSSH server configuration prevented Ansible to reconnect and thus the
+      previous configuration has been restored. Ensure the new configuration still allows
+      Ansible to connect to the host and try again.
+  when:
+    - _sshd_restart is defined
+    - _sshd_restart.changed

@@ -1,7 +1,17 @@
 sshd
-=========
+====
 
-This role configures `sshd` on Debian servers.
+This role configures `sshd` on Debian servers. The package `openssh-server` is installed if it does not exist yet.
+
+The role also features a rollback mechanism that works as follows:
+
+- backup `/etc/ssh/sshd_config` and `/etc/ssh/sshd_config.d`
+- check if `sshd` is restarted due to config changes
+- install systemd timer and service units that restore the previous configuration after a few seconds
+- reset connections to force Ansible to re-connect
+- then:
+  - re-connect immediatly and remove the systemd units that would have handled the rollback, then tell the user that the new configuration works.
+  - when the connection is refused, wait until the rollback mechanism is activated, then re-connect and clean up the systemd units and finally tell the user that the previous configuration was restored, because the new configuration prevented Ansible from connecting.
 
 Requirements
 ------------
@@ -15,6 +25,7 @@ Role Variables
 | --- | --- | --- |
 | `sshd_config` | String | If present, the contents of this variable are copied to the configuration file at `/etc/ssh/sshd_config`. If absent, the current file is not modified. |
 | `sshd_config_d` | Mapping | If present, each key in this mapping is used as a file name to create a file in `/etc/ssh/sshd_config.d` while the value is used as file content. This is particularly useful to define additional `Match` blocks. Unknown files are removed from the directory. If absent, the directory is not modified. |
+| `sshd_defaults` | String | If present, the contents of this variable are copied to `/etc/default/ssh`. If absent, the current file is not modified. |
 | `sshd_systemd_override` | String | If present, the contents of this variable are copied to `/etc/systemd/system/sshd.service.d/override.conf` to override or add settings to the systemd service unit running `sshd`. If absent, the current file is not modified. |
 
 Dependencies
@@ -37,6 +48,10 @@ Example variables
 
 ```yml
 # group_vars/all.yml
+
+# Enable listening to IPv4 addresses only.
+sshd_defaults: |
+  SSHD_OPTS=-4
 
 # Mostly static configuration file, but used as a template to
 # substitute ansible_host for ListenAddress.

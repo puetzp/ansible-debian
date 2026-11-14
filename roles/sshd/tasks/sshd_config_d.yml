@@ -30,7 +30,7 @@
   notify:
     - Validate sshd config
     - Restart sshd
-  
+ 
 - name: Create sshd configuration files
   ansible.builtin.copy:
     content: "{{ item.value }}"
