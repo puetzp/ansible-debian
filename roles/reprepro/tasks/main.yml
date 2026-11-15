@@ -134,3 +134,9 @@
     owner: "{{ reprepro_user }}"
     group: "{{ reprepro_user }}"
     mode: '0755'
+
+- name: Add DEB packages to repositories
+  ansible.builtin.include_tasks: includedeb.yml
+  loop: "{{ reprepro_includedeb | dict2items }}"
+  loop_control:
+    loop_var: _reprepro_includedeb

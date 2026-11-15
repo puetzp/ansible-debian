@@ -27,6 +27,7 @@ Role Variables
 | `reprepro_distributions` | String | If present, the contents of this variable are copied to `{{ reprepro_basedir }}/conf/distributions`. |
 | `reprepro_updates` | String | If present, the contents of this variable are copied to `{{ reprepro_basedir }}/conf/updates`. |
 | `reprepro_gpg_keyrings` | List | If present, imports all keys from local keyrings to the remote user's keyring. This way `reprepro` is able to validate upstream release files when refering to a key via the `VerifyRelease` directive in a `conf/updates` file. |
+| `reprepro_includedeb` | Mapping | If present, each key in this mapping is used as a codename of a repository to include all packages from the list (the mapping value). |
 
 Dependencies
 ------------
@@ -92,6 +93,12 @@ reprepro_distributions: |
   Update: trixie-security
   SignWith: ! sign.sh
 
+  Codename: internal
+  Origin: internal
+  Architectures: amd64
+  Components: main
+  SignWith: ! sign.sh
+
 reprepro_updates_filter_formula: >
   Section (!=cli-mono),
   Section (!=comm),
@@ -139,6 +146,11 @@ reprepro_updates: |
   Method: https://security.debian.org/debian-security
   VerifyRelease: 8E9F831205B4BA95
   FilterFormula: {{ reprepro_updates_filter_formula }}
+
+reprepro_includedeb:
+  internal:
+    - /path/to/custom/deb
+    - /another/path/to/custom/deb
 ```
 
 Links
